@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liujiajun.mapper.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.liujiajun.po.Message" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="vid" property="vid" jdbcType="INTEGER" />
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findByVid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id,vid,sid,content
+    from message
+    where vid =#{vid,jdbcType=INTEGER}
+  </select>
+  <select id="findByVidSid" resultMap="BaseResultMap" parameterType="com.liujiajun.po.Message" >
+    select id,vid,sid,content
+    from message
+    where vid = #{vid,jdbcType=INTEGER} and sid =#{sid,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="insert" parameterType="com.liujiajun.po.Message" >
+    insert into message ( vid, sid,content
+      )
+    values (#{vid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <update id="update" parameterType="com.liujiajun.po.Message" >
+    update message
+    <set >
+      <if test="sid != null" >
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="vid != null" >
+        vid = #{vid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

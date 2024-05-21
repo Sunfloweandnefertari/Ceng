@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liujiajun.mapper.VedioMapper" >
+  <resultMap id="BaseResultMap" type="com.liujiajun.po.Vedio" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tid" property="tid" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="filename" property="filename" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id,tid,url,name,time,filename
+    from video
+    where id =#{id,jdbcType=INTEGER}
+  </select>
+  <select id="findByTId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id,tid,url,name,time,filename
+    from video
+    where tid =#{tid,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="insert" parameterType="com.liujiajun.po.Vedio" >
+    insert into video (tid,url,name,time,filename
+      )
+    values (#{tid,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}, 
+      #{time,jdbcType=VARCHAR},#{filename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="findByPaging"  resultType="com.liujiajun.po.Vedio">
+        SELECT v.*,t.userName FROM video v LEFT JOIN teacher t ON v.tid=t.userID
+    </select>
+</mapper>
